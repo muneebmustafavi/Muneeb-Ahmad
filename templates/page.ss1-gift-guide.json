@@ -1,0 +1,21 @@
+{
+  "sections": {
+    "ss1_header": {
+      "type": "ss1-header",
+      "settings": {}
+    },
+    "ss1_hero": {
+      "type": "ss1-hero",
+      "settings": {}
+    },
+    "ss1_tagline": {
+      "type": "ss1-tagline",
+      "settings": {}
+    }
+  },
+  "order": [
+    "ss1_header",
+    "ss1_hero",
+    "ss1_tagline"
+  ]
+}

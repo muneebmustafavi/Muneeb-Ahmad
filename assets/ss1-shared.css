@@ -1,0 +1,160 @@
+/* Shared typography and buttons; Dawn styles outside SS1 are untouched. */
+.ss1-section {
+  --ss1-unit: 1px;
+  display: block;
+  position: relative;
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  font-family: "SS1Jost", Jost, Arial, sans-serif;
+  font-size: calc(16 * var(--ss1-unit));
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: #000;
+  background: #fff;
+  --yellow: #fff544;
+  --black: #000;
+  --strip: #f5f5f5;
+  --wipe-duration: 450ms;
+  --wipe-easing: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.ss1-section,
+.ss1-section * {
+  box-sizing: border-box;
+}
+
+.ss1-section a {
+  color: inherit;
+}
+
+.ss1-section h1,
+.ss1-section h2,
+.ss1-section p,
+.ss1-section button {
+  font-family: inherit;
+  letter-spacing: 0;
+  color: inherit;
+}
+
+.ss1-section .ss1-button {
+  font-family: "SS1Jost", Jost, Arial, sans-serif;
+}
+
+.ss1-header-wrapper {
+  position: relative;
+  z-index: 20;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ss1-section {
+    --wipe-duration: 0ms;
+  }
+}
+
+.ss1-section .ss1-button {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  border: 0;
+  border-radius: 0;
+  text-decoration: none;
+  font-family: "SS1Jost", Jost, Arial, sans-serif;
+  font-size: calc(16 * var(--ss1-unit));
+  font-weight: 400;
+  line-height: calc(20.48 * var(--ss1-unit));
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: color var(--wipe-duration) var(--wipe-easing);
+}
+
+.ss1-section .ss1-button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--hover-bg);
+  transform: translateX(-101%);
+  transition: transform var(--wipe-duration) var(--wipe-easing);
+  z-index: -1;
+}
+
+.ss1-section .ss1-button:hover::before,
+.ss1-section .ss1-button:focus-visible::before {
+  transform: translateX(0);
+}
+
+.ss1-section .ss1-button:hover,
+.ss1-section .ss1-button:focus-visible {
+  color: var(--hover-color);
+}
+
+.ss1-section .ss1-button:focus-visible {
+  outline: calc(2 * var(--ss1-unit)) solid #000;
+  outline-offset: calc(4 * var(--ss1-unit));
+}
+
+.ss1-section .ss1-button__label {
+  position: relative;
+}
+
+.ss1-section .ss1-button__arrow {
+  position: absolute;
+  right: calc(22 * var(--ss1-unit));
+  width: calc(26 * var(--ss1-unit));
+  height: calc(12 * var(--ss1-unit));
+  display: block;
+}
+
+.ss1-section .ss1-button__arrow svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+
+.ss1-section .ss1-button--gift {
+  width: calc(207 * var(--ss1-unit));
+  height: calc(44 * var(--ss1-unit));
+  background: var(--yellow);
+  color: #000;
+  --hover-bg: #000;
+  --hover-color: #fff;
+  padding-right: calc(25 * var(--ss1-unit));
+}
+
+.ss1-section .ss1-button--gift .ss1-button__arrow {
+  width: calc(24 * var(--ss1-unit));
+}
+
+.ss1-section .ss1-button--shop {
+  width: calc(220 * var(--ss1-unit));
+  height: calc(50 * var(--ss1-unit));
+  background: #000;
+  color: #fff;
+  --hover-bg: var(--yellow);
+  --hover-color: #000;
+  padding-right: calc(24 * var(--ss1-unit));
+}
+
+/* Measure each Dawn wrapper, rather than zooming the page with JavaScript. */
+.ss1-header-wrapper,
+.ss1-hero-wrapper,
+.ss1-tagline-wrapper {
+  container-type: inline-size;
+  width: 100%;
+}
+
+.ss1-section[data-scale-large="true"] {
+  max-width: none;
+  --ss1-unit: max(1px, calc(100vw / 1440));
+}
+
+@supports (width: 1cqw) {
+  .ss1-section[data-scale-large="true"] {
+    --ss1-unit: max(1px, calc(100cqw / 1440));
+  }
+}
