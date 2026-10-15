@@ -13,9 +13,22 @@
   let active = null;
   let previousOverflow = '';
 
-  function feedback(state, message = '', isError = false) {
-    state.message.textContent = message;
+  function cartUrl() {
+    const root = window.Shopify?.routes?.root ?? '/';
+    return `${root.endsWith('/') ? root : `${root}/`}cart`;
+  }
+
+  function feedback(state, message = '', isError = false, showCartLink = false) {
     state.message.classList.toggle('is-error', isError);
+    state.message.replaceChildren();
+    if (!message && !showCartLink) return;
+    if (message) state.message.append(document.createTextNode(message));
+    if (!showCartLink || isError) return;
+    const link = document.createElement('a');
+    link.href = cartUrl();
+    link.className = 'gg-cart-link';
+    link.textContent = 'Open Cart';
+    state.message.append(document.createTextNode(' '), link);
   }
 
   function setDropdown(option, isOpen) {
@@ -180,7 +193,7 @@
         throw new Error(typeof data.description === 'string' ? data.description : data.message ?? 'Unable to add this item. Please try again.');
       }
       added = true;
-      feedback(state, 'Added to cart.');
+      feedback(state, 'Added to cart.', false, true);
       patchCartCount(data.sections?.['cart-icon-bubble']);
 
       if (cart?.renderContents && sectionIds.every(id => typeof data.sections?.[id] === 'string')) {
@@ -190,7 +203,7 @@
         cart.classList.remove('is-empty');
         cart.renderContents(data);
       } else if (cart?.renderContents) {
-        feedback(state, 'Added to cart. Open your cart to view it.');
+        feedback(state, 'Added to cart.', false, true);
       }
       document.dispatchEvent(new CustomEvent('gg:cart-added', { detail: { variantId: variant.id, cartData: data } }));
       if (typeof publish === 'function' && typeof PUB_SUB_EVENTS !== 'undefined') {
@@ -199,8 +212,8 @@
     } catch (error) {
       // A drawer rendering failure must not tell the customer the add failed:
       // retrying an already-successful add could create an unwanted duplicate.
-      feedback(state, added ? 'Added to cart. Open your cart to view it.' :
-        error.message || 'Connection error. Please try again.', !added);
+      feedback(state, added ? 'Added to cart.' :
+        error.message || 'Connection error. Please try again.', !added, added);
     } finally {
       state.busy = false;
       updateVariant(state);
