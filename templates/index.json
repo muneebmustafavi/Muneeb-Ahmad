@@ -56,7 +56,7 @@
       "settings": {
         "desktop_text": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL",
         "mobile_text": "SUSTAINABLE, ETHICALLY MADE ACTIVEWEAR",
-        "scale_large": true
+        "scale_large": false
       }
     }
   },
