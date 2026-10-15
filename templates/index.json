@@ -117,8 +117,8 @@
           "settings": {
             "image": "shopify://shop_images/young-female-models-denim_925x_44c2cf9e-4030-4347-9d4a-f0e4a1479b4a.jpg",
             "product": "dark-denim-top",
-            "hotspot_x": 50,
-            "hotspot_y": 55,
+            "hotspot_x": 75,
+            "hotspot_y": 40,
             "alt": "Look"
           }
         }
