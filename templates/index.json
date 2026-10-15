@@ -97,8 +97,8 @@
           "settings": {
             "image": "shopify://shop_images/leather-jacket-and-tea_925x_2490cde1-7e61-4151-9a65-de8a763bc701.jpg",
             "product": "classic-leather-jacket",
-            "hotspot_x": 70,
-            "hotspot_y": 20,
+            "hotspot_x": 72,
+            "hotspot_y": 19,
             "alt": "Look"
           }
         },
@@ -107,8 +107,8 @@
           "settings": {
             "image": "shopify://shop_images/casual-fashion-woman_925x_56b56608-f207-45c1-b677-bb5aa26c1c7a.jpg",
             "product": "classic-varsity-top",
-            "hotspot_x": 50,
-            "hotspot_y": 55,
+            "hotspot_x": 53,
+            "hotspot_y": 28,
             "alt": "Look"
           }
         },
