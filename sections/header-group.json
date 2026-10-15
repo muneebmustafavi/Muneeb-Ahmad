@@ -63,7 +63,7 @@
         "message": "Find the ideal gift for your loved ones.",
         "button_label": "Choose gift",
         "button_link": "#",
-        "scale_large": true
+        "scale_large": false
       }
     }
   },
