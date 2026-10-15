@@ -1,0 +1,192 @@
+{% render 'ss1-foundation' %}
+{{ 'ss1-header.css' | asset_url | stylesheet_tag }}
+
+{% liquid
+  assign gift_link = section.settings.button_link | default: routes.all_products_collection_url
+  assign logo_alt = section.settings.logo.alt | default: section.settings.brand_name
+%}
+
+<div data-ss1-mobile-header class="ss1-section ss1-header" data-scale-large="{{ section.settings.scale_large }}">
+  <header class="ss1-navbar">
+    <button
+      class="ss1-menu-toggle"
+      type="button"
+      aria-label="Open gift menu"
+      aria-expanded="false"
+      aria-controls="SS1GiftMenu-{{ section.id }}"
+    >
+      {% render 'ss1-bars' %}
+      <span class="ss1-menu-toggle__close" aria-hidden="true">
+        {% render 'ss1-vector' %}
+        {% render 'ss1-vector' %}
+      </span>
+    </button>
+
+    <a class="ss1-brand" href="{{ routes.root_url }}" aria-label="{{ section.settings.brand_name | escape }}">
+      {% if section.settings.logo != blank %}
+        {{ section.settings.logo | image_url: width: 600 | image_tag: width: 152, height: 19, alt: logo_alt, loading: 'eager' }}
+      {% else %}
+        <img src="{{ 'ss1-logo.svg' | asset_url }}" width="152" height="19" alt="{{ logo_alt | escape }}" loading="eager">
+      {% endif %}
+    </a>
+
+    <p class="ss1-navbar__message ss1-navbar__desktop-message">
+      {{ section.settings.message | escape }}
+    </p>
+
+    <a class="ss1-button ss1-button--gift ss1-navbar__desktop-button" href="{{ gift_link }}">
+      <span class="ss1-button__label">{{ section.settings.button_label | escape }}</span>
+      <span class="ss1-button__arrow" aria-hidden="true">{% render 'ss1-arrow' %}</span>
+    </a>
+
+    <div class="ss1-mobile-menu" id="SS1GiftMenu-{{ section.id }}" aria-hidden="true" inert>
+      <div class="ss1-mobile-menu__clip">
+        <div class="ss1-mobile-menu__content">
+          <p>{{ section.settings.message | escape }}</p>
+          <a class="ss1-button ss1-button--gift" href="{{ gift_link }}">
+            <span class="ss1-button__label">{{ section.settings.button_label | escape }}</span>
+            <span class="ss1-button__arrow" aria-hidden="true">{% render 'ss1-arrow' %}</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+</div>
+
+{% javascript %}
+/* Shopify loads this section script automatically, including in the Theme Editor.
+ * Delegated events also work after Shopify replaces the section's HTML.
+ */
+(() => {
+  if (window.ss1MobileMenuBound) return;
+  window.ss1MobileMenuBound = true;
+
+  const headerSelector = '.ss1-header[data-ss1-mobile-header]';
+  const mobileViewport = window.matchMedia('(max-width: 900px)');
+
+  function setMenuOpen(header, isOpen) {
+    const toggle = header.querySelector('.ss1-menu-toggle');
+    const menu = header.querySelector('.ss1-mobile-menu');
+    if (!toggle || !menu) return;
+
+    toggle.setAttribute('aria-expanded', String(isOpen));
+    toggle.setAttribute('aria-label', isOpen ? 'Close gift menu' : 'Open gift menu');
+    menu.setAttribute('aria-hidden', String(!isOpen));
+    menu.inert = !isOpen;
+    menu.classList.toggle('is-open', isOpen);
+  }
+
+  function closeMenusExcept(activeHeader = null) {
+    document.querySelectorAll(headerSelector).forEach((header) => {
+      if (header !== activeHeader) setMenuOpen(header, false);
+    });
+  }
+
+  document.addEventListener('click', (event) => {
+    if (!(event.target instanceof Element)) return;
+
+    const header = event.target.closest(headerSelector);
+    const toggle = event.target.closest('.ss1-menu-toggle');
+
+    if (header && toggle && mobileViewport.matches) {
+      const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+      closeMenusExcept(header);
+      setMenuOpen(header, !isOpen);
+      return;
+    }
+
+    closeMenusExcept(header);
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape') return;
+
+    document.querySelectorAll(headerSelector).forEach((header) => {
+      const toggle = header.querySelector('.ss1-menu-toggle');
+      if (toggle?.getAttribute('aria-expanded') !== 'true') return;
+
+      setMenuOpen(header, false);
+      toggle.focus();
+    });
+  });
+
+  mobileViewport.addEventListener('change', (event) => {
+    if (!event.matches) closeMenusExcept();
+  });
+
+  document.addEventListener('shopify:section:load', (event) => {
+    const header = event.target.querySelector(headerSelector);
+    if (header) setMenuOpen(header, false);
+  });
+
+  document.addEventListener('shopify:section:select', (event) => {
+    const header = event.target.querySelector(headerSelector);
+    if (header && mobileViewport.matches) setMenuOpen(header, true);
+  });
+
+  document.addEventListener('shopify:section:deselect', (event) => {
+    const header = event.target.querySelector(headerSelector);
+    if (header) setMenuOpen(header, false);
+  });
+})();
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "SS1 Header",
+  "tag": "section",
+  "class": "ss1-header-wrapper",
+  "settings": [
+    {
+      "type": "text",
+      "id": "brand_name",
+      "label": "Brand name",
+      "default": "Tisso Vison"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo",
+      "info": "Optional. The supplied logo is used when empty."
+    },
+    {
+      "type": "text",
+      "id": "message",
+      "label": "Gift message",
+      "default": "Find the ideal gift for your loved ones."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Choose gift"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link",
+      "info": "Defaults to the all-products collection."
+    },
+    {
+      "type": "checkbox",
+      "id": "scale_large",
+      "label": "Scale design above 1440px",
+      "default": true,
+      "info": "Use the same setting in Header, Hero and Tagline for consistent proportions."
+    }
+  ],
+  "presets": [
+    {
+      "name": "SS1 Header"
+    }
+  ],
+  "enabled_on": {
+    "templates": [
+      "*"
+    ],
+    "groups": [
+      "header"
+    ]
+  }
+}
+{% endschema %}
