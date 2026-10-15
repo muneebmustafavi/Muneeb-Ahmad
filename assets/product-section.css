@@ -238,7 +238,6 @@
 .gg-products .gg-pop-title,
 .shopify-section .gg-pop .gg-pop-title {
   margin: 0 0 calc(4 * var(--u));
-  padding-right: calc(16 * var(--u));
   font-family: "Jost", sans-serif;
   font-weight: 300;
   font-size: 16px;
@@ -556,6 +555,11 @@
     gap: 8px;
     padding: 12px 10px 28px;
   }
+
+  .gg-products .gg-pop-desc,
+  .shopify-section .gg-pop .gg-pop-desc {
+    font-size: 12px;
+  }
 }
 
 /* Variant state and keyboard controls. */
@@ -614,6 +618,66 @@
     height: auto;
     font-size: calc(36 * var(--u));
     margin-left: calc(var(--pad-x) + max(0px, (100% - (2 * var(--pad-x)) - ((var(--cols) * var(--photo-w) * var(--u)) + ((var(--cols) - 1) * var(--gap)))) / 2));
+  }
+
+  .gg-products .gg-pop-copy,
+  .shopify-section .gg-pop .gg-pop-copy {
+    overflow: visible;
+  }
+
+  .gg-products .gg-pop-title,
+  .shopify-section .gg-pop .gg-pop-title {
+    position: absolute;
+    top: 49px;
+    left: 145px;
+    width: 136px;
+    height: 19px;
+    margin: 0;
+    overflow: hidden;
+    font-family: "Jost", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+    font-size: 16px;
+    line-height: 120%;
+    letter-spacing: 0;
+    vertical-align: middle;
+  }
+
+  .gg-products .gg-pop-price,
+  .shopify-section .gg-pop .gg-pop-price {
+    position: absolute;
+    top: 88px;
+    left: 145px;
+    width: 64px;
+    height: 19px;
+    margin: 0;
+    overflow: hidden;
+    font-family: "Lustria", serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 16px;
+    line-height: 120%;
+    letter-spacing: 0;
+    vertical-align: middle;
+  }
+
+  .gg-products .gg-pop-desc,
+  .shopify-section .gg-pop .gg-pop-desc {
+    position: absolute;
+    top: 119px;
+    left: 145px;
+    width: 146px;
+    height: 60px;
+    flex: none;
+    margin: 0;
+    overflow: hidden;
+    font-family: "Jost", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+    font-size: 14px;
+    line-height: 110%;
+    letter-spacing: -0.01em;
+    vertical-align: middle;
   }
 }
 
