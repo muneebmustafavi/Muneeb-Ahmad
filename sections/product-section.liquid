@@ -40,6 +40,8 @@
   @media (max-width: {{ section.settings.mobile_breakpoint }}px) {
     #shopify-section-{{ section.id }} .gg-products {
       --u: 1px;
+      --photo-w: 169;
+      --photo-h: 186;
     }
   }
 {% endstyle %}
@@ -127,10 +129,18 @@
 
               <div class="gg-pop-options">
                 {%- unless spot_product.has_only_default_variant -%}
+                  {%- comment -%} Pass 1 is Color, pass 2 is Size and any other option. {%- endcomment -%}
+                  {%- for pass in (1..2) -%}
                   {%- for option in spot_product.options_with_values -%}
                     {%- assign option_index = option.position | minus: 1 -%}
                     {%- assign option_name = option.name | downcase -%}
-                    <div class="gg-option" data-option-index="{{ option_index }}">
+                    {%- assign is_color = false -%}
+                    {%- if option_name == 'color' or option_name == 'colour' -%}
+                      {%- assign is_color = true -%}
+                    {%- endif -%}
+                    {%- if pass == 1 and is_color == false -%}{%- continue -%}{%- endif -%}
+                    {%- if pass == 2 and is_color -%}{%- continue -%}{%- endif -%}
+                    <div class="gg-option{% if is_color %} gg-option--color{% endif %}" data-option-index="{{ option_index }}">
                       <p class="gg-field-label" id="gg-option-{{ section.id }}-{{ block.id }}-{{ option.position }}">{{ option.name | escape }}</p>
                       {%- if option_name == 'color' or option_name == 'colour' -%}
                         <div class="gg-colors" role="group" aria-labelledby="gg-option-{{ section.id }}-{{ block.id }}-{{ option.position }}" style="--color-count: {{ option.values.size }}; --slide-i: 0;">
@@ -170,6 +180,7 @@
                         </div>
                       {%- endif -%}
                     </div>
+                  {%- endfor -%}
                   {%- endfor -%}
                 {%- endunless -%}
 

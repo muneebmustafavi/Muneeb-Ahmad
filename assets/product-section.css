@@ -15,6 +15,8 @@
   --pad-bottom: calc(48 * var(--u));
   --cols: 3;
   --ratio: 3 / 4;
+  --photo-w: 433;
+  --photo-h: 444;
   background: var(--page-bg);
 }
 
@@ -43,7 +45,8 @@
 
 .gg-products__grid {
   display: grid;
-  grid-template-columns: repeat(var(--cols), 1fr);
+  grid-template-columns: repeat(var(--cols), minmax(0, calc(var(--photo-w) * var(--u))));
+  justify-content: start;
   gap: var(--gap);
   padding: 0 var(--pad-x) var(--pad-bottom);
 }
@@ -52,7 +55,9 @@
 .gg-products .gg-photo {
   position: relative;
   overflow: visible;
-  aspect-ratio: var(--ratio);
+  width: 100%;
+  height: auto;
+  aspect-ratio: var(--photo-w) / var(--photo-h);
   background: #f3f3f3;
   cursor: default;
 }
@@ -212,6 +217,11 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
+}
+
+.gg-products .gg-option--color,
+.shopify-section .gg-pop .gg-option--color {
+  order: -1;
 }
 
 .gg-products .gg-pop-title,
@@ -509,6 +519,8 @@
 @media (max-width: 900px) {
   .gg-products {
     --u: 1px;
+    --photo-w: 169;
+    --photo-h: 186;
   }
 
   .gg-products__title {
@@ -525,7 +537,8 @@
   }
 
   .gg-products__grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 169px));
+    justify-content: center;
     gap: 8px;
     padding: 12px 10px 28px;
   }
@@ -546,6 +559,10 @@
 
 .shopify-section .gg-pop .gg-option + .gg-option {
   margin-top: 6px;
+}
+
+.shopify-section .gg-pop .gg-option--color {
+  margin-top: 0;
 }
 
 .shopify-section .gg-pop .gg-pop-feedback {
