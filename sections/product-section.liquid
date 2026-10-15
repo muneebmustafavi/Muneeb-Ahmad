@@ -1,0 +1,259 @@
+
+
+{{ 'product-section.css' | asset_url | stylesheet_tag }}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Lustria&display=swap" rel="stylesheet">
+
+{% style %}
+  #shopify-section-{{ section.id }} .gg-products {
+    --page-bg: {{ section.settings.page_bg }};
+    --cols: {{ section.settings.gallery_columns }};
+    --ratio: {{ section.settings.gallery_ratio }};
+    --gap: calc({{ section.settings.gallery_gap }} * var(--u));
+    --pad-x: calc({{ section.settings.gallery_pad_x }} * var(--u));
+    --pad-top: calc({{ section.settings.gallery_pad_top }} * var(--u));
+    --pad-bottom: calc({{ section.settings.gallery_pad_bottom }} * var(--u));
+  }
+
+  {%- for block in section.blocks -%}
+    {%- if block.type == 'photo' -%}
+      #shopify-section-{{ section.id }} .gg-spot-{{ block.id }} {
+        --hx: {{ block.settings.hotspot_x }}%;
+        --hy: {{ block.settings.hotspot_y }}%;
+      }
+      {%- if block.settings.hotspot_x > 55 -%}
+        @media (min-width: {{ section.settings.mobile_breakpoint | plus: 1 }}px) {
+          #shopify-section-{{ section.id }} .gg-spot-{{ block.id }} {
+            /* mark for left-opening card */
+          }
+          #shopify-section-{{ section.id }} .gg-spot-{{ block.id }} .gg-pop {
+            left: auto;
+            right: calc((100% - var(--hx)) + (18 * var(--u)));
+          }
+        }
+      {%- endif -%}
+    {%- endif -%}
+  {%- endfor -%}
+
+  @media (max-width: {{ section.settings.mobile_breakpoint }}px) {
+    #shopify-section-{{ section.id }} .gg-products {
+      --u: 1px;
+    }
+  }
+{% endstyle %}
+
+<div
+  class="gg-products"
+  id="gg-products-{{ section.id }}"
+  data-gg-grid
+>
+  {%- if section.settings.gallery_heading != blank -%}
+    <h3 class="gg-products__title">{{ section.settings.gallery_heading | escape }}</h3>
+  {%- endif -%}
+
+  <div class="gg-products__grid">
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'photo' -%}
+        {%- assign spot_product = block.settings.product -%}
+        {%- assign current_variant = spot_product.selected_or_first_available_variant -%}
+        <div
+          class="gg-photo gg-spot-{{ block.id }}{% if block.settings.hotspot_x > 55 %} gg-photo--left{% endif %}"
+          {{ block.shopify_attributes }}
+          data-gg-spot
+          data-spot-id="{{ block.id }}"
+        >
+          <div class="gg-shot">
+            {%- if block.settings.image != blank -%}
+              <img
+                src="{{ block.settings.image | image_url: width: 1200 }}"
+                alt="{{ block.settings.alt | escape }}"
+                width="{{ block.settings.image.width }}"
+                height="{{ block.settings.image.height }}"
+                loading="lazy"
+              >
+            {%- elsif spot_product.featured_image != blank -%}
+              <img
+                src="{{ spot_product.featured_image | image_url: width: 1200 }}"
+                alt="{{ spot_product.title | escape }}"
+                width="{{ spot_product.featured_image.width }}"
+                height="{{ spot_product.featured_image.height }}"
+                loading="lazy"
+              >
+            {%- else -%}
+              <div class="gg-photo-empty">Add image</div>
+            {%- endif -%}
+          </div>
+
+          {%- if spot_product != blank -%}
+            <button
+              class="gg-plus"
+              type="button"
+              aria-label="Show {{ spot_product.title | escape }}"
+              aria-expanded="false"
+              aria-haspopup="dialog"
+              aria-controls="gg-dialog-{{ section.id }}-{{ block.id }}"
+            >
+              <svg class="gg-icon" viewBox="0 0 30 30" fill="none" aria-hidden="true">
+                <circle cx="15" cy="12" r="11" fill="#F8F8F8" fill-opacity="0.9" style="filter: drop-shadow(0 3px 4px rgba(0,0,0,.2));"/>
+                <path d="M15.3457 8.04175V16.5033" stroke="black" stroke-width="1.5" stroke-linecap="square"/>
+                <path d="M11.1152 12.2725H19.5768" stroke="black" stroke-width="1.5" stroke-linecap="square"/>
+              </svg>
+            </button>
+
+            <div class="gg-pop" id="gg-dialog-{{ section.id }}-{{ block.id }}" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="gg-title-{{ section.id }}-{{ block.id }}" tabindex="-1">
+              <button class="gg-pop-close" type="button" aria-label="Close">&times;</button>
+
+              {%- if spot_product.featured_image != blank -%}
+                <img
+                  class="gg-pop-img"
+                  src="{{ spot_product.featured_image | image_url: width: 400 }}"
+                  alt="{{ spot_product.title | escape }}"
+                  width="120"
+                  height="140"
+                >
+              {%- else -%}
+                <span></span>
+              {%- endif -%}
+
+              <div class="gg-pop-copy">
+                <h3 class="gg-pop-title" id="gg-title-{{ section.id }}-{{ block.id }}">{{ spot_product.title | escape }}</h3>
+                <p class="gg-pop-price">{{ current_variant.price | money }}</p>
+                {%- if spot_product.description != blank -%}
+                  <p class="gg-pop-desc">{{ spot_product.description | strip_html | escape }}</p>
+                {%- endif -%}
+              </div>
+
+              <div class="gg-pop-options">
+                {%- unless spot_product.has_only_default_variant -%}
+                  {%- for option in spot_product.options_with_values -%}
+                    {%- assign option_index = option.position | minus: 1 -%}
+                    {%- assign option_name = option.name | downcase -%}
+                    <div class="gg-option" data-option-index="{{ option_index }}">
+                      <p class="gg-field-label" id="gg-option-{{ section.id }}-{{ block.id }}-{{ option.position }}">{{ option.name | escape }}</p>
+                      {%- if option_name == 'color' or option_name == 'colour' -%}
+                        <div class="gg-colors" role="group" aria-labelledby="gg-option-{{ section.id }}-{{ block.id }}-{{ option.position }}" style="--color-count: {{ option.values.size }}; --slide-i: 0;">
+                          <span class="gg-colors-slide" aria-hidden="true"></span>
+                          {%- for value in option.values -%}
+                            {%- assign color_name = value | downcase -%}
+                            {%- liquid
+                              case color_name
+                                when 'white'
+                                  assign swatch = '#ffffff'
+                                when 'black'
+                                  assign swatch = '#111111'
+                                when 'blue'
+                                  assign swatch = '#1d4ed8'
+                                when 'red'
+                                  assign swatch = '#c41230'
+                                when 'grey', 'gray'
+                                  assign swatch = '#c5c5c5'
+                                else
+                                  assign swatch = '#cccccc'
+                              endcase
+                            -%}
+                            <button class="gg-color" type="button" data-option-value="{{ value | escape }}" aria-pressed="false" style="--swatch: {{ swatch }};">{{ value | escape }}</button>
+                          {%- endfor -%}
+                        </div>
+                      {%- else -%}
+                        <div class="gg-size">
+                          <button class="gg-size-btn" type="button" aria-expanded="false" aria-controls="gg-values-{{ section.id }}-{{ block.id }}-{{ option.position }}" aria-labelledby="gg-option-{{ section.id }}-{{ block.id }}-{{ option.position }} gg-choice-{{ section.id }}-{{ block.id }}-{{ option.position }}">
+                            <span class="gg-size-label" id="gg-choice-{{ section.id }}-{{ block.id }}-{{ option.position }}" data-placeholder="Choose your {{ option.name | downcase | escape }}">Choose your {{ option.name | downcase | escape }}</span>
+                            <span class="gg-size-icon" aria-hidden="true"><svg width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" stroke-width="1.2"/></svg></span>
+                          </button>
+                          <ul class="gg-size-list" id="gg-values-{{ section.id }}-{{ block.id }}-{{ option.position }}">
+                            {%- for value in option.values -%}
+                              <li><button type="button" data-option-value="{{ value | escape }}" aria-pressed="false">{{ value | escape }}</button></li>
+                            {%- endfor -%}
+                          </ul>
+                        </div>
+                      {%- endif -%}
+                    </div>
+                  {%- endfor -%}
+                {%- endunless -%}
+
+                <p class="gg-pop-feedback" role="status" aria-live="polite" aria-atomic="true"></p>
+                {%- if spot_product.requires_selling_plan -%}
+                  <a class="gg-product-link" href="{{ spot_product.url }}">View purchase options</a>
+                {%- endif -%}
+
+                <button class="gg-atc" type="button" disabled>
+                  <span>Add to cart</span>
+                  <svg width="22" height="10" viewBox="0 0 22 10" fill="none" aria-hidden="true"><path d="M0 5H20M16 1L20.5 5L16 9" stroke="currentColor" stroke-width="1.3"/></svg>
+                </button>
+
+                <script type="application/json" class="gg-variants">
+                  {
+                    "requiresSellingPlan": {{ spot_product.requires_selling_plan | json }},
+                    "optionCount": {% if spot_product.has_only_default_variant %}0{% else %}{{ spot_product.options.size }}{% endif %},
+                    "variants": [
+                      {%- for variant in spot_product.variants -%}
+                        {"id":{{ variant.id }},"options":{{ variant.options | json }},"available":{{ variant.available | json }},"price":{{ variant.price }},"formattedPrice":{{ variant.price | money | json }}}{% unless forloop.last %},{% endunless %}
+                      {%- endfor -%}
+                    ]
+                  }
+                </script>
+              </div>
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</div>
+
+<div class="gg-backdrop" data-gg-backdrop hidden></div>
+
+{%- comment -%} Load JS after markup so + clicks work on the live storefront {%- endcomment -%}
+<script src="{{ 'product-section.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "Product Hotspots",
+  "tag": "section",
+  "class": "product-hotspots-section",
+  "settings": [
+    { "type": "header", "content": "Grid" },
+    { "type": "color", "id": "page_bg", "label": "Background", "default": "#ffffff" },
+    { "type": "text", "id": "gallery_heading", "label": "Section heading", "default": "Tisso vison in the wild", "info": "Shown above the grid on desktop and mobile." },
+    { "type": "range", "id": "mobile_breakpoint", "label": "Mobile starts under", "min": 600, "max": 1200, "step": 20, "unit": "px", "default": 900 },
+    { "type": "range", "id": "gallery_columns", "label": "Columns on desktop", "min": 2, "max": 4, "step": 1, "default": 3 },
+    { "type": "select", "id": "gallery_ratio", "label": "Photo shape", "default": "3 / 4", "options": [
+      { "value": "1 / 1", "label": "Square" },
+      { "value": "3 / 4", "label": "Portrait" },
+      { "value": "4 / 3", "label": "Landscape" }
+    ]},
+    { "type": "range", "id": "gallery_gap", "label": "Space between photos", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 16 },
+    { "type": "range", "id": "gallery_pad_x", "label": "Grid side space", "min": 0, "max": 80, "step": 2, "unit": "px", "default": 24 },
+    { "type": "range", "id": "gallery_pad_top", "label": "Space above grid", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 48 },
+    { "type": "range", "id": "gallery_pad_bottom", "label": "Space below grid", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 48 }
+  ],
+  "blocks": [
+    {
+      "type": "photo",
+      "name": "Photo",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "product", "id": "product", "label": "Product" },
+        { "type": "header", "content": "Plus button position" },
+        { "type": "paragraph", "content": "Move the + on the photo with these sliders." },
+        { "type": "range", "id": "hotspot_x", "label": "Move left or right (X)", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 50 },
+        { "type": "range", "id": "hotspot_y", "label": "Move up or down (Y)", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 55 },
+        { "type": "text", "id": "alt", "label": "Alt text", "default": "Look" }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Product Hotspots",
+      "blocks": [
+        { "type": "photo" },
+        { "type": "photo" },
+        { "type": "photo" }
+      ]
+    }
+  ]
+}
+{% endschema %}
