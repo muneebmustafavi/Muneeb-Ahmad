@@ -1,0 +1,586 @@
+/**
+ * Gift Guide — Products / Hotspot grid
+ * Scoped under .gg-products
+ */
+
+.gg-products {
+  width: 100%;
+  overflow-x: clip;
+  container-type: inline-size;
+  --u: calc(100cqw / 1440);
+  --page-bg: #ffffff;
+  --gap: calc(16 * var(--u));
+  --pad-x: calc(24 * var(--u));
+  --pad-top: calc(48 * var(--u));
+  --pad-bottom: calc(48 * var(--u));
+  --cols: 3;
+  --ratio: 3 / 4;
+  background: var(--page-bg);
+}
+
+.gg-products__title {
+  display: block;
+  box-sizing: border-box;
+  width: 372px;
+  max-width: 100%;
+  height: 43px;
+  margin: var(--pad-top) 0 calc(24 * var(--u)) var(--pad-x);
+  padding: 0;
+  opacity: 1;
+  transform: rotate(0deg);
+  font-family: "Lustria", serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 36px;
+  line-height: 120%;
+  letter-spacing: 0;
+  vertical-align: middle;
+  color: #111111;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.gg-products__grid {
+  display: grid;
+  grid-template-columns: repeat(var(--cols), 1fr);
+  gap: var(--gap);
+  padding: 0 var(--pad-x) var(--pad-bottom);
+}
+
+/* ---- photo cell ---- */
+.gg-products .gg-photo {
+  position: relative;
+  overflow: visible;
+  aspect-ratio: var(--ratio);
+  background: #f3f3f3;
+  cursor: default;
+}
+
+.gg-products .gg-shot {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.gg-products .gg-shot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.gg-products .gg-photo-empty {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #888;
+  font-size: 14px;
+}
+
+/* ---- + hotspot ---- */
+.gg-products .gg-plus {
+  position: absolute;
+  z-index: 2;
+  left: var(--hx, 50%);
+  top: var(--hy, 55%);
+  width: calc(30 * var(--u));
+  height: calc(30 * var(--u));
+  padding: 0;
+  border: 0;
+  background: transparent;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+}
+
+.gg-products .gg-plus svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ---- product card ---- */
+.gg-products .gg-pop,
+.shopify-section .gg-pop.is-center {
+  display: none;
+  position: absolute;
+  z-index: 3;
+  left: calc(var(--hx) + (22 * var(--u)));
+  top: var(--hy);
+  transform: translateY(-12%);
+  width: min(400px, calc(400 * var(--u)), calc(100vw - 32px));
+  max-width: 400px;
+  background: #ffffff;
+  box-shadow: 0 calc(8 * var(--u)) calc(28 * var(--u)) rgba(0, 0, 0, 0.16);
+  grid-template-columns: 1fr;
+  row-gap: calc(14 * var(--u));
+  padding: 36px 16px 16px 17px;
+  align-items: start;
+  text-align: left;
+  color: #111111;
+}
+
+.gg-products .gg-photo.is-open .gg-pop,
+.shopify-section .gg-pop.is-center {
+  display: grid;
+}
+
+.gg-products .gg-backdrop,
+.shopify-section .gg-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 9998;
+}
+
+.gg-products .gg-backdrop[hidden],
+.shopify-section .gg-backdrop[hidden] {
+  display: none;
+}
+
+.shopify-section .gg-pop.is-center {
+  --u: 1px;
+  position: fixed !important;
+  left: 50% !important;
+  top: 50% !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: translate(-50%, -50%) !important;
+  width: min(400px, calc(100vw - 32px)) !important;
+  max-width: 400px;
+  max-height: calc(100vh - 24px);
+  overflow: hidden !important;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  z-index: 9999;
+  margin: 0;
+  padding-bottom: 20px;
+}
+
+.shopify-section .gg-pop.is-center::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.gg-products .gg-pop-close,
+.shopify-section .gg-pop .gg-pop-close {
+  position: absolute;
+  top: calc(8 * var(--u));
+  right: calc(8 * var(--u));
+  width: calc(22 * var(--u));
+  height: calc(22 * var(--u));
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #111111;
+  font-size: calc(18 * var(--u));
+  line-height: 1;
+  cursor: pointer;
+}
+
+.gg-products .gg-pop-img,
+.shopify-section .gg-pop .gg-pop-img {
+  position: absolute;
+  top: 36px;
+  left: 17px;
+  width: 120px;
+  height: 140px;
+  object-fit: cover;
+  display: block;
+  background: #f3f3f3;
+  opacity: 1;
+  transform: rotate(0deg);
+}
+
+.gg-products .gg-pop-copy,
+.shopify-section .gg-pop .gg-pop-copy {
+  grid-column: 1;
+  grid-row: 1;
+  min-width: 0;
+  min-height: 140px;
+  margin-left: 134px;
+  padding-right: 16px;
+  box-sizing: border-box;
+}
+
+.gg-products .gg-pop-options,
+.shopify-section .gg-pop .gg-pop-options {
+  grid-column: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.gg-products .gg-pop-title,
+.shopify-section .gg-pop .gg-pop-title {
+  margin: 0 0 calc(4 * var(--u));
+  padding-right: calc(16 * var(--u));
+  font-family: "Jost", sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 120%;
+  letter-spacing: 0;
+  color: #111111;
+}
+
+.gg-products .gg-pop-price,
+.shopify-section .gg-pop .gg-pop-price {
+  margin: 0 0 calc(8 * var(--u));
+  font-family: "Lustria", serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 120%;
+  letter-spacing: 0;
+  color: #111111;
+}
+
+.gg-products .gg-pop-desc,
+.shopify-section .gg-pop .gg-pop-desc {
+  margin: 0;
+  font-family: "Jost", sans-serif;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 110%;
+  letter-spacing: -0.01em;
+  color: #222222;
+}
+
+.gg-products .gg-field-label,
+.shopify-section .gg-pop .gg-field-label {
+  margin: 0 0 calc(6 * var(--u));
+  font-family: "Jost", sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 100%;
+  color: #111111;
+}
+
+.gg-products .gg-colors,
+.shopify-section .gg-pop .gg-colors {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--color-count, 2), 1fr);
+  margin: 0 0 calc(12 * var(--u));
+  border: 1px solid #111111;
+  overflow: hidden;
+  --slide-i: 0;
+}
+
+.gg-products .gg-colors-slide,
+.shopify-section .gg-pop .gg-colors-slide {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: calc(100% / var(--color-count, 2));
+  background: #111111;
+  transform: translateX(calc(var(--slide-i, 0) * 100%));
+  transition: transform 0.45s ease;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.gg-products .gg-colors.has-selection .gg-colors-slide,
+.shopify-section .gg-pop .gg-colors.has-selection .gg-colors-slide {
+  opacity: 1;
+}
+
+.gg-products .gg-color,
+.gg-products .gg-size-btn,
+.gg-products .gg-size-list button,
+.shopify-section .gg-pop .gg-color,
+.shopify-section .gg-pop .gg-size-btn,
+.shopify-section .gg-pop .gg-size-list button {
+  color: #111111;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+.gg-products .gg-color,
+.shopify-section .gg-pop .gg-color {
+  position: relative;
+  z-index: 1;
+  height: 36px;
+  border: 0;
+  border-right: 1px solid #111111;
+  padding: 0;
+  overflow: hidden;
+  background: transparent;
+  transition: color 0.35s ease;
+  box-sizing: border-box;
+  font-family: "Jost", sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 100%;
+  letter-spacing: -0.02em;
+  text-transform: capitalize;
+}
+
+.gg-products .gg-color:last-child,
+.shopify-section .gg-pop .gg-color:last-child {
+  border-right: 0;
+}
+
+.gg-products .gg-color::before,
+.shopify-section .gg-pop .gg-color::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: calc(8 * var(--u));
+  box-sizing: border-box;
+  background: var(--swatch, #cccccc);
+  border-right: 1px solid #111111;
+}
+
+.gg-products .gg-color.is-selected,
+.shopify-section .gg-pop .gg-color.is-selected {
+  color: #ffffff;
+  background: transparent;
+}
+
+.gg-products .gg-size,
+.shopify-section .gg-pop .gg-size {
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.gg-products .gg-size-btn,
+.shopify-section .gg-pop .gg-size-btn {
+  width: 100%;
+  height: 32px;
+  border: 1px solid #111111;
+  display: flex;
+  align-items: stretch;
+  padding: 0;
+  text-align: left;
+  background: #ffffff;
+  box-sizing: border-box;
+  font-family: "Jost", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 100%;
+  letter-spacing: -0.02em;
+}
+
+.gg-products .gg-size-label,
+.shopify-section .gg-pop .gg-size-label {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  font: inherit;
+  letter-spacing: inherit;
+}
+
+.gg-products .gg-size.has-value .gg-size-label,
+.shopify-section .gg-pop .gg-size.has-value .gg-size-label {
+  justify-content: center;
+}
+
+.gg-products .gg-size-icon,
+.shopify-section .gg-pop .gg-size-icon {
+  width: 32px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-left: 1px solid #111111;
+}
+
+.gg-products .gg-size-icon svg,
+.shopify-section .gg-pop .gg-size-icon svg {
+  display: block;
+  width: 10px;
+  height: 6px;
+  transition: transform 0.3s ease;
+}
+
+.gg-products .gg-size.is-open .gg-size-icon svg,
+.shopify-section .gg-pop .gg-size.is-open .gg-size-icon svg {
+  transform: rotate(180deg);
+}
+
+.gg-products .gg-size-list,
+.shopify-section .gg-pop .gg-size-list {
+  display: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  z-index: 5;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: 1px solid #111111;
+  border-top: 0;
+  background: #ffffff;
+  max-height: 74px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.gg-products .gg-size-list::-webkit-scrollbar,
+.shopify-section .gg-pop .gg-size-list::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.gg-products .gg-size.is-open .gg-size-list,
+.shopify-section .gg-pop .gg-size.is-open .gg-size-list {
+  display: block;
+}
+
+.gg-products .gg-size-list button,
+.shopify-section .gg-pop .gg-size-list button {
+  width: 100%;
+  height: 28px;
+  border: 0;
+  border-bottom: 1px solid #e6e6e6;
+  text-align: center;
+  padding: 0 12px;
+  background: #ffffff;
+  box-sizing: border-box;
+  font-family: "Jost", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 28px;
+  letter-spacing: -0.02em;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.gg-products .gg-size-list button:hover,
+.gg-products .gg-size-list button.is-active,
+.shopify-section .gg-pop .gg-size-list button:hover,
+.shopify-section .gg-pop .gg-size-list button.is-active {
+  background: #111111;
+  color: #ffffff;
+}
+
+.gg-products .gg-size-list li:last-child button,
+.shopify-section .gg-pop .gg-size-list li:last-child button {
+  border-bottom: 0;
+}
+
+.gg-products .gg-atc,
+.shopify-section .gg-pop .gg-atc {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 44px;
+  margin-top: 30px;
+  flex-shrink: 0;
+  border: 0;
+  background: #000000;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-family: "Jost", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20.48px;
+  letter-spacing: 0;
+  text-align: center;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+/* Flip card to the left when hotspot is on the right half */
+.gg-products .gg-photo--left .gg-pop {
+  left: auto;
+  right: calc((100% - var(--hx)) + (18 * var(--u)));
+}
+
+/* ---- mobile: 2 columns ---- */
+@media (max-width: 900px) {
+  .gg-products {
+    --u: 1px;
+  }
+
+  .gg-products__title {
+    width: auto;
+    height: auto;
+    margin: 28px 16px 6px;
+    text-align: center;
+    white-space: normal;
+    font-family: "Lustria", serif;
+    font-weight: 400;
+    font-size: 28px;
+    line-height: 120%;
+    color: #111111;
+  }
+
+  .gg-products__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    padding: 12px 10px 28px;
+  }
+}
+
+/* Variant state and keyboard controls. */
+.gg-products .gg-plus:focus-visible,
+.shopify-section .gg-pop button:focus-visible,
+.shopify-section .gg-pop a:focus-visible {
+  outline: 2px solid #111111;
+  outline-offset: 3px;
+}
+
+.shopify-section .gg-pop button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.shopify-section .gg-pop .gg-option + .gg-option {
+  margin-top: 6px;
+}
+
+.shopify-section .gg-pop .gg-pop-feedback {
+  margin: 10px 0 0;
+  font: 400 14px/1.35 "Jost", sans-serif;
+  color: #111111;
+}
+
+.shopify-section .gg-pop .gg-pop-feedback:empty {
+  display: none;
+}
+
+.shopify-section .gg-pop .gg-pop-feedback.is-error {
+  color: #b42318;
+}
+
+.shopify-section .gg-pop .gg-product-link {
+  font: 400 14px/1.35 "Jost", sans-serif;
+  color: #111111;
+  text-decoration: underline;
+}
+
+/* Align desktop heading scale with the illustration grid. */
+@media (min-width: 901px) {
+  .gg-products .gg-products__title {
+    width: calc(372 * var(--u));
+    height: auto;
+    font-size: calc(36 * var(--u));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shopify-section .gg-pop .gg-colors-slide,
+  .shopify-section .gg-pop .gg-color,
+  .shopify-section .gg-pop .gg-size-icon svg {
+    transition: none;
+  }
+}
