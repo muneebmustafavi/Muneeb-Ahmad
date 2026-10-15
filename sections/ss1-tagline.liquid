@@ -1,0 +1,48 @@
+{% render 'ss1-foundation' %}
+{{ 'ss1-tagline.css' | asset_url | stylesheet_tag }}
+
+<ss1-tagline class="ss1-section ss1-tagline" data-scale-large="{{ section.settings.scale_large }}">
+  <div class="ss1-tagline-panel">
+    <p class="ss1-tagline__desktop">{{ section.settings.desktop_text | escape }}</p>
+    <p class="ss1-tagline__mobile">{{ section.settings.mobile_text | escape }}</p>
+  </div>
+</ss1-tagline>
+
+{% schema %}
+{
+  "name": "SS1 Tagline",
+  "tag": "section",
+  "class": "ss1-tagline-wrapper",
+  "settings": [
+    {
+      "type": "text",
+      "id": "desktop_text",
+      "label": "Desktop tagline",
+      "default": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL"
+    },
+    {
+      "type": "text",
+      "id": "mobile_text",
+      "label": "Mobile and tablet tagline",
+      "default": "SUSTAINABLE, ETHICALLY MADE ACTIVEWEAR"
+    },
+    {
+      "type": "checkbox",
+      "id": "scale_large",
+      "label": "Scale design above 1440px",
+      "default": true,
+      "info": "Use the same setting in Header, Hero and Tagline for consistent proportions."
+    }
+  ],
+  "presets": [
+    {
+      "name": "SS1 Tagline"
+    }
+  ],
+  "enabled_on": {
+    "templates": [
+      "*"
+    ]
+  }
+}
+{% endschema %}

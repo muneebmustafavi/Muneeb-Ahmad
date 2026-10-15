@@ -1,0 +1,43 @@
+/* SS1 Tagline — styles scoped to this section only. */
+
+.ss1-tagline .ss1-tagline-panel {
+  min-height: calc(34 * var(--ss1-unit));
+  padding: calc(10 * var(--ss1-unit)) calc(50 * var(--ss1-unit));
+  background: var(--strip);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ss1-tagline .ss1-tagline-panel p {
+  margin: 0;
+  font-size: calc(16 * var(--ss1-unit));
+  line-height: calc(14 * var(--ss1-unit));
+  text-align: center;
+  font-weight: 400;
+}
+
+.ss1-tagline .ss1-tagline__mobile {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .ss1-tagline .ss1-tagline-panel {
+    min-height: 34px;
+    padding: 10px 12px;
+  }
+
+  .ss1-tagline .ss1-tagline__desktop {
+    display: none;
+  }
+
+  .ss1-tagline .ss1-tagline__mobile {
+    display: block;
+  }
+
+  .ss1-tagline .ss1-tagline-panel p {
+    font-size: 14px;
+    line-height: 13.42px;
+    white-space: nowrap;
+  }
+}

@@ -1,0 +1,93 @@
+{% render 'ss1-foundation' %}
+{{ 'ss1-hero.css' | asset_url | stylesheet_tag }}
+
+{% liquid
+  assign shop_link = section.settings.button_link | default: routes.all_products_collection_url
+  assign hero_image = section.settings.illustration
+%}
+
+<ss1-hero class="ss1-section ss1-hero" data-scale-large="{{ section.settings.scale_large }}">
+  <section class="ss1-hero-panel" aria-labelledby="SS1HeroTitle-{{ section.id }}">
+    <div class="ss1-hero__art" aria-hidden="true">
+      {% if hero_image != blank %}
+        {{ hero_image | image_url: width: 2400 | image_tag: class: 'ss1-hero__image ss1-hero__image--top', alt: '', loading: 'eager', fetchpriority: 'high' }}
+        {{ hero_image | image_url: width: 2400 | image_tag: class: 'ss1-hero__image ss1-hero__image--bottom', alt: '', loading: 'eager' }}
+      {% else %}
+        <img class="ss1-hero__image ss1-hero__image--top" src="{{ 'ss1-frame.png' | asset_url }}" alt="" width="2048" height="778" loading="eager" fetchpriority="high">
+        <img class="ss1-hero__image ss1-hero__image--bottom" src="{{ 'ss1-frame.png' | asset_url }}" alt="" width="2048" height="778" loading="eager">
+      {% endif %}
+    </div>
+
+    <div class="ss1-hero__content">
+      <h1 id="SS1HeroTitle-{{ section.id }}">{{ section.settings.heading | escape }}</h1>
+      <p>{{ section.settings.description | escape }}<span class="ss1-hero__desktop-copy"><br> {{ section.settings.desktop_description | escape }}</span></p>
+      <a class="ss1-button ss1-button--shop" href="{{ shop_link }}">
+        <span class="ss1-button__label">{{ section.settings.button_label | escape }}</span>
+        <span class="ss1-button__arrow" aria-hidden="true">{% render 'ss1-arrow' %}</span>
+      </a>
+    </div>
+  </section>
+</ss1-hero>
+
+{% schema %}
+{
+  "name": "SS1 Hero",
+  "tag": "section",
+  "class": "ss1-hero-wrapper",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The Gift Guide"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description — desktop and mobile",
+      "default": "Discover joy: Your Ultimate Holiday Gift Destination."
+    },
+    {
+      "type": "textarea",
+      "id": "desktop_description",
+      "label": "Additional description — desktop only",
+      "default": "Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season."
+    },
+    {
+      "type": "image_picker",
+      "id": "illustration",
+      "label": "Illustration",
+      "info": "Optional. The supplied Frame image is used when empty. For matching proportions use a wide 2048 × 778 image."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Shop now"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link",
+      "info": "Defaults to the all-products collection."
+    },
+    {
+      "type": "checkbox",
+      "id": "scale_large",
+      "label": "Scale design above 1440px",
+      "default": true,
+      "info": "Use the same setting in Header, Hero and Tagline for consistent proportions."
+    }
+  ],
+  "presets": [
+    {
+      "name": "SS1 Hero"
+    }
+  ],
+  "enabled_on": {
+    "templates": [
+      "*"
+    ]
+  }
+}
+{% endschema %}
