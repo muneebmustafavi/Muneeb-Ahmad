@@ -326,11 +326,4 @@
       }
     });
   });
-  document.addEventListener('shopify:block:select', (event) => {
-    grids.forEach(grid => {
-      const state = grid.states.find(item => item.spot.dataset.spotId === event.detail?.blockId);
-      if (state) openModal(state);
-    });
-  });
-  document.addEventListener('shopify:block:deselect', () => closeModal());
 })();
