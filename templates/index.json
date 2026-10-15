@@ -49,10 +49,20 @@
         "button_link": "",
         "scale_large": true
       }
+    },
+    "ss1_tagline_fCFkMW": {
+      "type": "ss1-tagline",
+      "name": "SS1 Tagline",
+      "settings": {
+        "desktop_text": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL",
+        "mobile_text": "SUSTAINABLE, ETHICALLY MADE ACTIVEWEAR",
+        "scale_large": true
+      }
     }
   },
   "order": [
     "featured_collection",
-    "ss1_hero_TwbJ9L"
+    "ss1_hero_TwbJ9L",
+    "ss1_tagline_fCFkMW"
   ]
 }
