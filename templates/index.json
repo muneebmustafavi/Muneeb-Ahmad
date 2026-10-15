@@ -58,11 +58,97 @@
         "mobile_text": "SUSTAINABLE, ETHICALLY MADE ACTIVEWEAR",
         "scale_large": true
       }
+    },
+    "product_section_UWPRzt": {
+      "type": "product-section",
+      "blocks": {
+        "photo_rcgVwg": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/black-bag-over-the-shoulder_925x_4cae5708-5e9e-4e7e-96ec-9649f0c20cd8.jpg",
+            "product": "",
+            "hotspot_x": 50,
+            "hotspot_y": 55,
+            "alt": "Look"
+          }
+        },
+        "photo_tN6aiU": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/man-adjusts-blue-tuxedo-bowtie_925x_55a49e12-d54b-488e-b7a0-ea4c201eb01f.jpg",
+            "product": "",
+            "hotspot_x": 50,
+            "hotspot_y": 55,
+            "alt": "Look"
+          }
+        },
+        "photo_JP48hJ": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/red-plaid-shirt_925x_70e9e5a8-8fc5-4d60-9a9a-cc2e0dd57cc9.jpg",
+            "product": "",
+            "hotspot_x": 50,
+            "hotspot_y": 55,
+            "alt": "Look"
+          }
+        },
+        "photo_UgjMLX": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/leather-jacket-and-tea_925x_2490cde1-7e61-4151-9a65-de8a763bc701.jpg",
+            "product": "",
+            "hotspot_x": 50,
+            "hotspot_y": 55,
+            "alt": "Look"
+          }
+        },
+        "photo_CzVhpB": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/casual-fashion-woman_925x_56b56608-f207-45c1-b677-bb5aa26c1c7a.jpg",
+            "product": "",
+            "hotspot_x": 50,
+            "hotspot_y": 55,
+            "alt": "Look"
+          }
+        },
+        "photo_WU9rDK": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/young-female-models-denim_925x_44c2cf9e-4030-4347-9d4a-f0e4a1479b4a.jpg",
+            "product": "",
+            "hotspot_x": 50,
+            "hotspot_y": 55,
+            "alt": "Look"
+          }
+        }
+      },
+      "block_order": [
+        "photo_rcgVwg",
+        "photo_tN6aiU",
+        "photo_JP48hJ",
+        "photo_UgjMLX",
+        "photo_CzVhpB",
+        "photo_WU9rDK"
+      ],
+      "name": "Product Hotspots",
+      "settings": {
+        "page_bg": "#ffffff",
+        "gallery_heading": "Tisso vison in the wild",
+        "mobile_breakpoint": 900,
+        "gallery_columns": 3,
+        "gallery_ratio": "3 / 4",
+        "gallery_gap": 16,
+        "gallery_pad_x": 24,
+        "gallery_pad_top": 48,
+        "gallery_pad_bottom": 48
+      }
     }
   },
   "order": [
     "featured_collection",
     "ss1_hero_TwbJ9L",
-    "ss1_tagline_fCFkMW"
+    "ss1_tagline_fCFkMW",
+    "product_section_UWPRzt"
   ]
 }
