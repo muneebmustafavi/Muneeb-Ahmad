@@ -62,7 +62,7 @@
         "brand_name": "Tisso Vison",
         "message": "Find the ideal gift for your loved ones.",
         "button_label": "Choose gift",
-        "button_link": "",
+        "button_link": "/cart",
         "scale_large": true
       }
     }
