@@ -77,7 +77,7 @@
   position: absolute;
   inset: 0;
   background: var(--hover-bg);
-  transform: translateX(-101%);
+  transform: translateX(101%);
   transition: transform var(--wipe-duration) var(--wipe-easing);
   z-index: -1;
 }
